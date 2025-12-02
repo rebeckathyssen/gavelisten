@@ -1,17 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { Component, signal } from '@angular/core';
+import { Overview } from "./pages/overview/overview";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [Overview],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('Gavelisten');
-  private auth = inject(AuthService);
-  constructor() {
-    this.auth.initAnonymous();
-  }
+  protected readonly title = signal('Gavelisten20');
 }

@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "gavelisten-e3bd5"
-  }
+  },
+  "targets": {
+    "gavelisten-e3bd5": {
+      "hosting": {
+        "gavelisten": [
+          "gavelisten"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
