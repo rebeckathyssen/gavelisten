@@ -1,18 +1,10 @@
-import { Component, input, signal, inject, computed } from '@angular/core';
+import { Component, signal, inject, computed, effect } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
-import { Person } from '../../services/person.service';
-
-export type WishStatus = 'mangler' | 'købt' | 'pakket-ind';
-
-export interface Wish {
-  id: number;
-  name: string;
-  price: number;
-  notes: string;
-  status: WishStatus;
-  link?: string;
-}
+import { toSignal } from '@angular/core/rxjs-interop';
+import { PersonService } from '../../services/person.service';
+import { WishService, WishStatus, Wish } from '../../services/wish.service';
+import { switchMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-persons-giftlist',
@@ -23,31 +15,49 @@ export interface Wish {
 export class PersonsGiftlist {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  
-  // TODO: Get person from service based on route param
-  // For now, demo data
-  person = computed(() => {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    const demoData: Person[] = [
-      { id: 1, name: 'Sophie', status: 'not-bought', budget: 50, avatar: '👩🏻' },
-      { id: 2, name: 'Jacob', status: 'purchased', budget: 40, spent: 40, avatar: '🧔🏽' },
-      { id: 3, name: 'Emily', status: 'in-progress', budget: 75, spent: 30, avatar: '🎅' },
-      { id: 4, name: 'Daniel', status: 'not-bought', budget: 60, avatar: '🧑🏼' },
-    ];
-    return demoData.find(p => p.id === id) || demoData[0];
-  });
+  private personService = inject(PersonService);
+  private wishService = inject(WishService);
   
   activeTab = signal<'wishlist' | 'ideas'>('wishlist');
 
-  // Demo data
-  wishlist = signal<Wish[]>([
-    { id: 1, name: 'LEGO Star Wars sæt', price: 450, notes: 'Det store Millennium Falcon', status: 'mangler', link: 'https://www.lego.com' },
-    { id: 2, name: 'Bog: The Hobbit', price: 150, notes: 'Paperback udgave', status: 'købt' },
-  ]);
+  // Get person ID from route
+  private personId = toSignal(
+    this.route.paramMap.pipe(
+      switchMap(params => of(params.get('id') || ''))
+    ),
+    { initialValue: '' }
+  );
 
-  ideas = signal<Wish[]>([
-    { id: 3, name: 'Bluetooth højtaler', price: 300, notes: 'Vandtæt til badeværelset', status: 'mangler', link: 'https://www.amazon.com' },
-  ]);
+  // Get person from Firebase
+  person = toSignal(
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = params.get('id');
+        return id ? this.personService.getById(id) : of(undefined);
+      })
+    )
+  );
+
+  // Get wishlist and ideas from Firebase
+  wishlist = toSignal(
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = params.get('id');
+        return id ? this.wishService.getByPerson(id, 'wishlist') : of([]);
+      })
+    ),
+    { initialValue: [] }
+  );
+
+  ideas = toSignal(
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = params.get('id');
+        return id ? this.wishService.getByPerson(id, 'ideas') : of([]);
+      })
+    ),
+    { initialValue: [] }
+  );
 
   switchTab(tab: 'wishlist' | 'ideas') {
     this.activeTab.set(tab);
@@ -69,16 +79,43 @@ export class PersonsGiftlist {
     }
   }
 
-  editWish(wish: Wish) {
+  async editWish(wish: Wish) {
+    // TODO: Open edit dialog
     console.log('Edit wish', wish);
   }
 
-  deleteWish(wish: Wish) {
-    console.log('Delete wish', wish);
+  async deleteWish(wish: Wish) {
+    if (!wish.id) return;
+    
+    if (confirm(`Er du sikker på at du vil slette "${wish.name}"?`)) {
+      try {
+        await this.wishService.delete(wish.id);
+      } catch (error) {
+        console.error('Error deleting wish:', error);
+      }
+    }
   }
 
-  addWish() {
-    console.log('Add wish');
+  async addWish() {
+    const personId = this.personId();
+    if (!personId) return;
+
+    this.router.navigate(['/person', personId, 'wish', 'add'], {
+      queryParams: { type: this.activeTab() }
+    });
+  }
+
+  async toggleComplete() {
+    const p = this.person();
+    if (!p || !p.id) return;
+
+    try {
+      await this.personService.update(p.id, {
+        completed: !p.completed
+      });
+    } catch (error) {
+      console.error('Error toggling complete status:', error);
+    }
   }
 
   close() {

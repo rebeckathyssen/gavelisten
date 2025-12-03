@@ -1,8 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, signInAnonymously } from '@angular/fire/auth';
 import { Person, PersonService, Status } from '../../services/person.service';
 import { CurrencyPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-overview',
@@ -12,14 +12,20 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class Overview {
   private router = inject(Router);
+  private personService = inject(PersonService);
 
-  // Demo-data
-  readonly people = signal<Person[]>([
-    { id: 1, name: 'Sophie', status: 'not-bought', budget: 50, avatar: '👩🏻' },
-    { id: 2, name: 'Jacob', status: 'purchased', budget: 40, spent: 40, avatar: '🧔🏽' },
-    { id: 3, name: 'Emily', status: 'in-progress', budget: 75, spent: 30, avatar: '🎅' },
-    { id: 4, name: 'Daniel', status: 'not-bought', budget: 60, avatar: '🧑🏼' },
-  ]);
+  // Get people from Firebase
+  people = toSignal(this.personService.getAll(), { initialValue: [] });
+  isLoading = signal(true);
+
+  constructor() {
+    effect(() => {
+      const persons = this.people();
+      if (persons && persons.length > 0) {
+        this.isLoading.set(false);
+      }
+    });
+  }
 
   labelFor(status: Status) {
     switch (status) {
@@ -37,22 +43,13 @@ export class Overview {
     }
   }
 
-  badgeClass(status: Status) {
-    return {
-      'badge--not-bought': status === 'not-bought',
-      'badge--purchased': status === 'purchased',
-      'badge--progress': status === 'in-progress',
-    };
-  }
-
   openPerson(p: Person) {
-    this.router.navigate(['/person', p.id]);
+    if (p.id) {
+      this.router.navigate(['/person', p.id]);
+    }
   }
 
   addPerson() {
-    // TODO: åbn dialog/route – demo:
-    const ids = this.people().map(x => x.id).filter((id): id is number => typeof id === 'number');
-    const id = ids.length > 0 ? Math.max(...ids) + 1 : 1;
-    this.people.update(arr => [...arr, { id, name: 'New person', status: 'not-bought', budget: 50, avatar: '🙂' }]);
+    this.router.navigate(['/person/add']);
   }
 }

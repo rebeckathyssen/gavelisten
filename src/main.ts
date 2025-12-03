@@ -8,10 +8,16 @@ import { environment } from './environments/environment';
 const app = initializeApp(environment.firebase);
 const auth = getAuth(app);
 
+let appBootstrapped = false;
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     await signInAnonymously(auth);
   }
-  // Når vi er (anonymt) logget ind, booter vi Angular
-  bootstrapApplication(App, appConfig).catch(console.error);
+  
+  // Only bootstrap once
+  if (!appBootstrapped) {
+    appBootstrapped = true;
+    bootstrapApplication(App, appConfig).catch(console.error);
+  }
 });

@@ -1,0 +1,63 @@
+<div class="person-add">
+  <div class="person-add__header">
+    <button class="person-add__back" (click)="cancel()" aria-label="Tilbage">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <h1 class="person-add__title">Tilføj person</h1>
+  </div>
+
+  <div class="form-container">
+    <form (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="name">Navn</label>
+        <input 
+          type="text" 
+          id="name" 
+          [(ngModel)]="name" 
+          name="name"
+          placeholder="F.eks. Sophie"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="budget">Budget (DKK)</label>
+        <input 
+          type="number" 
+          id="budget" 
+          [(ngModel)]="budget" 
+          name="budget"
+          min="0"
+          step="50"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Vælg avatar</label>
+        <div class="avatar-grid">
+          @for (avatar of avatars; track avatar) {
+            <button 
+              type="button"
+              class="avatar-btn"
+              [class.avatar-btn--selected]="selectedAvatar() === avatar"
+              (click)="selectAvatar(avatar)"
+            >
+              {{ avatar }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn--secondary" (click)="cancel()">
+          Annuller
+        </button>
+        <button type="submit" class="btn btn--primary">
+          <i class="fa-solid fa-check"></i>
+          Gem
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

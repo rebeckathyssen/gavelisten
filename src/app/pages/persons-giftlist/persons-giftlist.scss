@@ -14,6 +14,12 @@
   padding-top: 12px;
 }
 
+.giftlist__main {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
 .giftlist__back {
   width: 44px;
   height: 44px;
@@ -57,19 +63,57 @@
   font-family: 'Berkshire Swash', serif;
 }
 
+.giftlist__complete {
+  border: 2px solid transparent;
+  background: var(--panel-sand);
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+  position: sticky;
+  top: 20px;
+
+  i {
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: var(--panel-cream);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &--active {
+    background: var(--badge-green);
+    color: #fff;
+    border-color: var(--badge-green);
+
+    &:hover {
+      background: #1a3f34;
+    }
+  }
+}
+
 .tabs {
   display: flex;
   gap: 12px;
-  background: var(--panel-sand);
-  border-radius: var(--radius-lg);
-  padding: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  flex: 1;
 }
 
 .tab {
   flex: 1;
   border: 0;
-  background: transparent;
+  background: var(--panel-sand);
   padding: 14px 20px;
   font-size: 16px;
   font-weight: 600;
@@ -87,7 +131,7 @@
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--panel-cream);
   }
 
   &--active {
@@ -97,20 +141,22 @@
 }
 
 .content {
-  background: var(--panel-sand);
-  border-radius: var(--radius-xl);
-  padding: 22px;
-  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.05);
+  min-height: 200px;
+  flex: 1;
 }
 
+.wishes {
+  display: flex;
 .wishes {
   display: flex;
   flex-direction: column;
   gap: 16px;
   margin-bottom: 16px;
-}
-
-.wish-card {
+  background: var(--panel-sand);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.05);
+}wish-card {
   background: var(--panel-cream);
   border-radius: var(--radius-lg);
   padding: 18px;
@@ -209,8 +255,6 @@
   font-size: 15px;
   color: rgba(28, 59, 51, 0.7);
   line-height: 1.4;
-}
-
 .add-wish-btn {
   width: 100%;
   border: 0;
@@ -228,10 +272,38 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  background: var(--panel-sand);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  &:hover {
+    transform: translateY(-2px);
+    background: var(--panel-cream);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  min-height: 200px;
+  font-size: 18px;
+  color: var(--ink-dark);
 
   i {
-    font-size: 16px;
+    font-size: 48px;
+    color: #ffc279;
   }
+
+  p {
+    margin: 0;
+  }
+} }
 
   &:hover {
     transform: translateY(-2px);
@@ -261,7 +333,32 @@
   }
 }
 
+@media (max-width: 768px) {
+  .giftlist__main {
+    flex-direction: column;
+  }
+
+  .giftlist__complete {
+    position: static;
+    align-self: stretch;
+  }
+}
+
 @media (max-width: 560px) {
+  .giftlist__complete {
+    font-size: 14px;
+    padding: 10px 16px;
+
+    span {
+      display: none;
+    }
+
+    i {
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+
   .giftlist__title {
     font-size: 28px;
   }
