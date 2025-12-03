@@ -1,1 +1,48 @@
-test2
+<div class="gift-app">
+  <div class="gift-app__header">
+    <img class="gift-app__icon" src="/logo.png" aria-hidden="true" alt="" />
+    <h1 class="gift-app__title">Gavelisten</h1>
+  </div>
+
+  <div class="board">
+    @for (p of people(); track p.id) {
+    <article class="card">
+      <div class="card__avatar" aria-hidden="true">
+        <span>{{ p.avatar ?? '🙂' }}</span>
+      </div>
+
+      <div class="card__content">
+        <div class="card__row">
+          <h2 class="card__name">{{ p.name }}</h2>
+          <span
+            class="badge"
+            [class.badge--not-bought]="p.status === 'not-bought'"
+            [class.badge--purchased]="p.status === 'purchased'"
+            [class.badge--progress]="p.status === 'in-progress'"
+          >
+            {{ labelFor(p.status) }}
+          </span>
+        </div>
+
+        <p class="card__budget">
+          Budget:
+          <strong>
+            @if (p.spent != null) {
+            {{ p.budget | currency : 'DKK' : 'symbol' : '1.2-2' : 'da-DK' }} /
+            {{ p.spent | currency : 'DKK' : 'symbol' : '1.2-2' : 'da-DK' }}
+            } @else {
+            {{ p.budget | currency : 'DKK' : 'symbol' : '1.2-2' : 'da-DK' }}
+            }
+          </strong>
+        </p>
+      </div>
+
+      <button class="card__chevron" (click)="openPerson(p)" [attr.aria-label]="'Open ' + p.name">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+      </button>
+    </article>
+    }
+
+    <button class="add-btn" type="button" (click)="addPerson()">Tilføj person</button>
+  </div>
+</div>
