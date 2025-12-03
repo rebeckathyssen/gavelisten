@@ -133,15 +133,25 @@
       </button>
     </div>
 
-    <button 
-      class="giftlist__complete"
-      [class.giftlist__complete--active]="p.completed"
-      (click)="toggleComplete()"
-      [attr.aria-label]="p.completed ? 'Marker som ikke færdig' : 'Marker som færdig'"
-    >
-      <i class="fa-solid" [class.fa-check]="p.completed" [class.fa-flag-checkered]="!p.completed"></i>
-      <span>{{ p.completed ? 'Færdig' : 'Marker som færdig' }}</span>
-    </button>
+    <div class="giftlist__actions">
+      <button 
+        class="giftlist__complete"
+        [class.giftlist__complete--active]="p.completed"
+        (click)="toggleComplete()"
+        [attr.aria-label]="p.completed ? 'Marker som ikke færdig' : 'Marker som færdig'"
+      >
+        <i class="fa-solid" [class.fa-check]="p.completed" [class.fa-flag-checkered]="!p.completed"></i>
+        <span>{{ p.completed ? 'Færdig' : 'Marker som færdig' }}</span>
+      </button>
+      <button 
+        class="giftlist__delete"
+        (click)="deletePerson()"
+        aria-label="Slet person"
+      >
+        <i class="fa-solid fa-trash"></i>
+        <span>Slet</span>
+      </button>
+    </div>
   </div>
   }
   @else {

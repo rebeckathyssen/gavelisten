@@ -5,13 +5,13 @@
   </div>
 
   @if (isLoading()) {
-    <div class="loading">
-      <i class="fa-solid fa-spinner fa-spin"></i>
-      <p>Indlæser personer...</p>
-    </div>
+  <div class="loading">
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    <p>Indlæser personer...</p>
+  </div>
   } @else {
-    <div class="board">
-      @for (p of people(); track p.id) {
+  <div class="board">
+    @for (p of people(); track p.id) {
     <article class="card" (click)="openPerson(p)">
       <div class="card__avatar" aria-hidden="true">
         <span>{{ p.avatar ?? '🙂' }}</span>
@@ -19,9 +19,9 @@
 
       <div class="card__content">
         <h2 class="card__name">{{ p.name }}</h2>
-        
+
         <div class="card__meta">
-          <span 
+          <span
             class="status"
             [class.status--not-bought]="p.status === 'not-bought'"
             [class.status--purchased]="p.status === 'purchased'"
@@ -33,31 +33,36 @@
 
           <div class="budget">
             @if (p.spent != null) {
-              <div class="budget__bar">
-                <div class="budget__fill" [style.width.%]="(p.spent / p.budget) * 100"></div>
-              </div>
-              <span class="budget__text">
-                {{ p.spent | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }} / {{ p.budget | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
-              </span>
+            <div class="budget__bar">
+              <div class="budget__fill" [style.width.%]="(p.spent / p.budget) * 100"></div>
+            </div>
+            <span class="budget__text">
+              {{ p.spent | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }} /
+              {{ p.budget | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
+            </span>
             } @else {
-              <div class="budget__bar">
-                <div class="budget__fill" style="width: 0%"></div>
-              </div>
-              <span class="budget__text">
-                {{ p.budget | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
-              </span>
+            <div class="budget__bar">
+              <div class="budget__fill" style="width: 0%"></div>
+            </div>
+            <span class="budget__text">
+              {{ p.budget | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
+            </span>
             }
           </div>
         </div>
       </div>
 
-      <button class="card__chevron"  [attr.aria-label]="'Open ' + p.name">
+      <button class="card__chevron" [attr.aria-label]="'Open ' + p.name">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
       </button>
     </article>
-      }
-
-      <button class="add-btn" type="button" (click)="addPerson()">Tilføj person</button>
+    } @empty {
+    <div class="empty-state">
+      <i class="fa-solid fa-user-group"></i>
+      <p>Ingen personer endnu</p>
     </div>
+    }
+    <button class="add-btn" type="button" (click)="addPerson()">Tilføj person</button>
+  </div>
   }
 </div>

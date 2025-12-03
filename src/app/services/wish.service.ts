@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData, query, where, orderBy, doc, addDoc, updateDoc, deleteDoc, Timestamp } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, query, where, orderBy, doc, addDoc, updateDoc, deleteDoc, Timestamp, getDocs, writeBatch } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 
@@ -77,5 +77,27 @@ export class WishService {
   async delete(id: string): Promise<void> {
     const wishDoc = doc(this.firestore, `wishes/${id}`);
     await deleteDoc(wishDoc);
+  }
+
+  async deleteByPerson(personId: string): Promise<void> {
+    const uid = this.getCurrentUserId();
+    if (!uid) throw new Error('User not authenticated');
+    
+    const q = query(
+      this.wishesCol,
+      where('ownerId', '==', uid),
+      where('personId', '==', personId)
+    );
+    
+    const snapshot = await getDocs(q);
+    
+    if (snapshot.empty) return;
+    
+    const batch = writeBatch(this.firestore);
+    snapshot.docs.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+    
+    await batch.commit();
   }
 }

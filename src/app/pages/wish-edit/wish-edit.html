@@ -1,0 +1,104 @@
+<div class="wish-edit">
+  @if (person(); as p) {
+  <div class="wish-edit__header">
+    <button class="wish-edit__back" (click)="cancel()" aria-label="Tilbage">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <div>
+      <h1 class="wish-edit__title">Rediger {{ wishType() === 'wishlist' ? 'ønske' : 'idé' }}</h1>
+      <p class="wish-edit__subtitle">For {{ p.name }}</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <p>Indlæser...</p>
+    </div>
+  } @else {
+    <div class="form-container">
+      <form (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="name">Navn *</label>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="name" 
+            name="name"
+            placeholder="F.eks. LEGO Star Wars"
+            required
+          />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="price">Pris (DKK) *</label>
+            <input 
+              type="number" 
+              id="price" 
+              [(ngModel)]="price" 
+              name="price"
+              min="0"
+              step="10"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <div class="status-buttons">
+              @for (status of statuses; track status.value) {
+                <button 
+                  type="button"
+                  class="status-btn"
+                  [class.status-btn--selected]="selectedStatus() === status.value"
+                  (click)="selectStatus(status.value)"
+                >
+                  <i class="fa-solid fa-{{ status.icon }}"></i>
+                  <span>{{ status.label }}</span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="link">Link (valgfrit)</label>
+          <input 
+            type="url" 
+            id="link" 
+            [(ngModel)]="link" 
+            name="link"
+            placeholder="https://..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Noter (valgfrit)</label>
+          <textarea 
+            id="notes" 
+            [(ngModel)]="notes" 
+            name="notes"
+            rows="4"
+            placeholder="Tilføj detaljer, farve, størrelse, osv."
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn--secondary" (click)="cancel()">
+            Annuller
+          </button>
+          <button type="submit" class="btn btn--primary">
+            <i class="fa-solid fa-check"></i>
+            Gem ændringer
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+  } @else {
+  <div class="loading">
+    <p>Indlæser...</p>
+  </div>
+  }
+</div>

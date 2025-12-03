@@ -80,8 +80,10 @@ export class PersonsGiftlist {
   }
 
   async editWish(wish: Wish) {
-    // TODO: Open edit dialog
-    console.log('Edit wish', wish);
+    const personId = this.personId();
+    if (!wish.id || !personId) return;
+
+    this.router.navigate(['/person', personId, 'wish', wish.id, 'edit']);
   }
 
   async deleteWish(wish: Wish) {
@@ -115,6 +117,21 @@ export class PersonsGiftlist {
       });
     } catch (error) {
       console.error('Error toggling complete status:', error);
+    }
+  }
+
+  async deletePerson() {
+    const p = this.person();
+    if (!p || !p.id) return;
+
+    if (confirm(`Er du sikker på at du vil slette ${p.name}? Dette vil også slette alle ønsker og idéer.`)) {
+      try {
+        await this.personService.delete(p.id);
+        this.router.navigate(['/']);
+      } catch (error) {
+        console.error('Error deleting person:', error);
+        alert('Der opstod en fejl ved sletning. Prøv igen.');
+      }
     }
   }
 

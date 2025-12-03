@@ -209,6 +209,24 @@
   }
 }
 
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(28, 59, 51, 0.5);
+
+  i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
 @media (max-width: 560px) {
   .card {
     grid-template-columns: 56px 1fr 36px;

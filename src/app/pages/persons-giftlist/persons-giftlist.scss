@@ -57,10 +57,18 @@
   font-family: 'Berkshire Swash', serif;
 }
 
-
-.giftlist__complete {
+.giftlist__actions {
   margin-top: 20px;
-  float: right;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  position: sticky;
+  top: 20px;
+  z-index: 5;
+}
+
+.giftlist__complete,
+.giftlist__delete {
   border: 2px solid transparent;
   background: var(--panel-sand);
   border-radius: 12px;
@@ -75,9 +83,6 @@
   gap: 8px;
   white-space: nowrap;
   flex-shrink: 0;
-  align-self: flex-start;
-  position: sticky;
-  top: 20px;
 
   i {
     font-size: 16px;
@@ -88,7 +93,9 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
+}
 
+.giftlist__complete {
   &--active {
     background: var(--badge-green);
     color: #fff;
@@ -97,6 +104,15 @@
     &:hover {
       background: #1a3f34;
     }
+  }
+}
+
+.giftlist__delete {
+  color: var(--badge-red);
+
+  &:hover {
+    background: var(--badge-red);
+    color: #fff;
   }
 }
 
@@ -243,7 +259,7 @@
     color: var(--badge-green);
   }
   &--pakket {
-    color: var(--badge-orange);
+    color: var(--badge-green);
   }
 }
 

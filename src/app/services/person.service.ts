@@ -3,6 +3,7 @@ import { Firestore, collection, collectionData, query, orderBy, doc, addDoc, upd
 import { Auth } from '@angular/fire/auth';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, delay } from 'rxjs/operators';
+import { WishService } from './wish.service';
 
 export interface Person {
   id?: string;
@@ -22,6 +23,7 @@ export type Status = 'not-bought' | 'purchased' | 'in-progress';
 export class PersonService {
   private firestore = inject(Firestore);
   private auth = inject(Auth);
+  private wishService = inject(WishService);
   private personsCol = collection(this.firestore, 'persons');
   private wishesCol = collection(this.firestore, 'wishes');
 
@@ -120,6 +122,10 @@ export class PersonService {
   }
 
   async delete(id: string): Promise<void> {
+    // Delete all wishes associated with this person first
+    await this.wishService.deleteByPerson(id);
+    
+    // Then delete the person
     const personDoc = doc(this.firestore, `persons/${id}`);
     await deleteDoc(personDoc);
   }

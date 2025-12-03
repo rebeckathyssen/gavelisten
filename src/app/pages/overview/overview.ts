@@ -21,7 +21,7 @@ export class Overview {
   constructor() {
     effect(() => {
       const persons = this.people();
-      if (persons && persons.length > 0) {
+      if (persons) {
         this.isLoading.set(false);
       }
     });
