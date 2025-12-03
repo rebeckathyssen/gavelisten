@@ -12,7 +12,7 @@
   } @else {
     <div class="board">
       @for (p of people(); track p.id) {
-    <article class="card">
+    <article class="card" (click)="openPerson(p)">
       <div class="card__avatar" aria-hidden="true">
         <span>{{ p.avatar ?? '🙂' }}</span>
       </div>
@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <button class="card__chevron" (click)="openPerson(p)" [attr.aria-label]="'Open ' + p.name">
+      <button class="card__chevron"  [attr.aria-label]="'Open ' + p.name">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
       </button>
     </article>
