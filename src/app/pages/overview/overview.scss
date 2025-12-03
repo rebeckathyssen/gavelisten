@@ -68,47 +68,73 @@
   min-width: 0;
 }
 
-.card__row {
+.card__name {
+  margin: 0 0 10px 0;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--ink-dark);
+}
+
+.card__meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.card__name {
-  font-size: 34px;
-  line-height: 1;
-  margin: 0;
-  color: var(--ink-dark);
-  font-weight: 700;
-}
-
-.card__budget {
-  margin: 0;
-  font-size: 22px;
-  strong {
-    font-weight: 800;
-  }
-}
-
-.badge {
-  display: inline-block;
-  padding: 8px 14px;
-  font-size: 18px;
-  border-radius: 999px;
-  color: #fff;
-  line-height: 1;
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
   font-weight: 600;
+  line-height: 1;
+  
+  i {
+    font-size: 14px;
+  }
 
-  &--not-bought {
-    background: var(--badge-red);
+  &--not-bought { 
+    color: var(--badge-red);
   }
-  &--purchased {
-    background: var(--badge-green);
+  &--purchased { 
+    color: var(--badge-green);
   }
-  &--progress {
-    background: var(--badge-orange);
+  &--progress { 
+    color: var(--badge-orange);
   }
+}
+
+.budget {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.budget__bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.budget__fill {
+  height: 100%;
+  background: var(--badge-green);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.budget__text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-dark);
+  white-space: nowrap;
 }
 
 .card__chevron {
@@ -137,15 +163,25 @@
 .add-btn {
   width: 100%;
   border: 0;
-  border-radius: 22px;
-  padding: 22px 28px;
-  font-size: 32px;
-  font-weight: 800;
-  color: #f6f1db;
+  border-radius: 16px;
+  padding: 18px 28px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
   background: var(--btn-green);
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 560px) {
@@ -162,16 +198,19 @@
   }
   .card__name {
     font-size: 26px;
+    margin-bottom: 8px;
   }
-  .card__budget {
-    font-size: 18px;
+  .status {
+    font-size: 14px;
+    i {
+      font-size: 13px;
+    }
   }
-  .badge {
-    font-size: 16px;
-    padding: 6px 10px;
+  .budget__text {
+    font-size: 14px;
   }
   .add-btn {
-    font-size: 24px;
-    padding: 18px;
+    font-size: 18px;
+    padding: 16px;
   }
 }

@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Auth, signInAnonymously } from '@angular/fire/auth';
 import { Person, PersonService, Status } from '../../services/person.service';
 import { CurrencyPipe } from '@angular/common';
@@ -10,7 +11,9 @@ import { CurrencyPipe } from '@angular/common';
   styleUrl: './overview.scss',
 })
 export class Overview {
-   // Demo-data
+  private router = inject(Router);
+
+  // Demo-data
   readonly people = signal<Person[]>([
     { id: 1, name: 'Sophie', status: 'not-bought', budget: 50, avatar: '👩🏻' },
     { id: 2, name: 'Jacob', status: 'purchased', budget: 40, spent: 40, avatar: '🧔🏽' },
@@ -19,6 +22,14 @@ export class Overview {
   ]);
 
   labelFor(status: Status) {
+    switch (status) {
+      case 'not-bought': return 'circle';
+      case 'purchased': return 'circle-check';
+      case 'in-progress': return 'clock';
+    }
+  }
+
+  statusText(status: Status) {
     switch (status) {
       case 'not-bought': return 'Ikke startet';
       case 'purchased': return 'Købt';
@@ -35,8 +46,7 @@ export class Overview {
   }
 
   openPerson(p: Person) {
-    // TODO: navigér/åbn sidepanel mv.
-    console.log('Open', p);
+    this.router.navigate(['/person', p.id]);
   }
 
   addPerson() {

@@ -12,29 +12,37 @@
       </div>
 
       <div class="card__content">
-        <div class="card__row">
-          <h2 class="card__name">{{ p.name }}</h2>
-          <span
-            class="badge"
-            [class.badge--not-bought]="p.status === 'not-bought'"
-            [class.badge--purchased]="p.status === 'purchased'"
-            [class.badge--progress]="p.status === 'in-progress'"
+        <h2 class="card__name">{{ p.name }}</h2>
+        
+        <div class="card__meta">
+          <span 
+            class="status"
+            [class.status--not-bought]="p.status === 'not-bought'"
+            [class.status--purchased]="p.status === 'purchased'"
+            [class.status--progress]="p.status === 'in-progress'"
           >
-            {{ labelFor(p.status) }}
+            <i class="fa-solid fa-{{ labelFor(p.status) }}"></i>
+            <span class="status__text">{{ statusText(p.status) }}</span>
           </span>
-        </div>
 
-        <p class="card__budget">
-          Budget:
-          <strong>
+          <div class="budget">
             @if (p.spent != null) {
-            {{ p.budget | currency : 'DKK' : 'symbol' : '1.2-2' : 'da-DK' }} /
-            {{ p.spent | currency : 'DKK' : 'symbol' : '1.2-2' : 'da-DK' }}
+              <div class="budget__bar">
+                <div class="budget__fill" [style.width.%]="(p.spent / p.budget) * 100"></div>
+              </div>
+              <span class="budget__text">
+                {{ p.spent | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }} / {{ p.budget | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
+              </span>
             } @else {
-            {{ p.budget | currency : 'DKK' : 'symbol' : '1.2-2' : 'da-DK' }}
+              <div class="budget__bar">
+                <div class="budget__fill" style="width: 0%"></div>
+              </div>
+              <span class="budget__text">
+                {{ p.budget | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
+              </span>
             }
-          </strong>
-        </p>
+          </div>
+        </div>
       </div>
 
       <button class="card__chevron" (click)="openPerson(p)" [attr.aria-label]="'Open ' + p.name">
