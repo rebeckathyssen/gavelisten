@@ -32,6 +32,13 @@ export class WishAdd {
     { initialValue: 'wishlist' as WishType }
   );
 
+  tab = toSignal(
+    this.route.queryParamMap.pipe(
+      switchMap(params => of(params.get('tab') || 'wishlist'))
+    ),
+    { initialValue: 'wishlist' }
+  );
+
   person = toSignal(
     this.route.paramMap.pipe(
       switchMap(params => {
@@ -83,7 +90,9 @@ export class WishAdd {
       }
       
       await this.wishService.add(wishData);
-      this.router.navigate(['/person', personId]);
+      this.router.navigate(['/person', personId], {
+        queryParams: { tab: this.tab() }
+      });
     } catch (error) {
       console.error('Error adding wish:', error);
       alert('Der opstod en fejl. Prøv igen.');
@@ -93,7 +102,9 @@ export class WishAdd {
   cancel() {
     const personId = this.personId();
     if (personId) {
-      this.router.navigate(['/person', personId]);
+      this.router.navigate(['/person', personId], {
+        queryParams: { tab: this.tab() }
+      });
     } else {
       this.router.navigate(['/']);
     }

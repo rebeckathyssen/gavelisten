@@ -20,6 +20,16 @@ export class PersonsGiftlist {
   
   activeTab = signal<'wishlist' | 'ideas'>('wishlist');
 
+  constructor() {
+    // Read tab from query params and update activeTab
+    this.route.queryParamMap.subscribe(params => {
+      const tab = params.get('tab') as 'wishlist' | 'ideas' | null;
+      if (tab === 'ideas' || tab === 'wishlist') {
+        this.activeTab.set(tab);
+      }
+    });
+  }
+
   // Get person ID from route
   private personId = toSignal(
     this.route.paramMap.pipe(
@@ -83,7 +93,9 @@ export class PersonsGiftlist {
     const personId = this.personId();
     if (!wish.id || !personId) return;
 
-    this.router.navigate(['/person', personId, 'wish', wish.id, 'edit']);
+    this.router.navigate(['/person', personId, 'wish', wish.id, 'edit'], {
+      queryParams: { tab: this.activeTab() }
+    });
   }
 
   async deleteWish(wish: Wish) {
@@ -103,7 +115,7 @@ export class PersonsGiftlist {
     if (!personId) return;
 
     this.router.navigate(['/person', personId, 'wish', 'add'], {
-      queryParams: { type: this.activeTab() }
+      queryParams: { type: this.activeTab(), tab: this.activeTab() }
     });
   }
 

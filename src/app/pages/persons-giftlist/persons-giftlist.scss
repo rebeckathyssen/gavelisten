@@ -12,6 +12,7 @@
   gap: 16px;
   margin-bottom: 24px;
   padding-top: 12px;
+  position: relative;
 }
 
 .giftlist__back {
@@ -37,6 +38,27 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
+}
+
+.giftlist__delete-btn {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: var(--panel-sand);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--badge-red);
+  font-size: 18px;
+
+  &:hover {
+    background: var(--badge-red);
+    color: #fff;
+    transform: scale(1.05);
+  }
 }
 
 .giftlist__avatar {

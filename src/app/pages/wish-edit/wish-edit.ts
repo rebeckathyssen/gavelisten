@@ -49,6 +49,13 @@ export class WishEdit {
   wishType = signal<WishType>('wishlist');
   isLoading = signal(true);
 
+  tab = toSignal(
+    this.route.queryParamMap.pipe(
+      switchMap(params => of(params.get('tab') || 'wishlist'))
+    ),
+    { initialValue: 'wishlist' }
+  );
+
   statuses: { value: WishStatus; label: string; icon: string }[] = [
     { value: 'mangler', label: 'Mangler', icon: 'circle' },
     { value: 'købt', label: 'Købt', icon: 'cart-shopping' },
@@ -123,7 +130,9 @@ export class WishEdit {
       }
       
       await this.wishService.update(wishId, wishData);
-      this.router.navigate(['/person', personId]);
+      this.router.navigate(['/person', personId], {
+        queryParams: { tab: this.tab() }
+      });
     } catch (error) {
       console.error('Error updating wish:', error);
       alert('Der opstod en fejl. Prøv igen.');
@@ -133,7 +142,9 @@ export class WishEdit {
   cancel() {
     const personId = this.personId();
     if (personId) {
-      this.router.navigate(['/person', personId]);
+      this.router.navigate(['/person', personId], {
+        queryParams: { tab: this.tab() }
+      });
     } else {
       this.router.navigate(['/']);
     }

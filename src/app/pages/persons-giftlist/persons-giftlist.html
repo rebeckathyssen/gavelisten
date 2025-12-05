@@ -8,6 +8,13 @@
       <span class="giftlist__avatar">{{ p.avatar ?? '🙂' }}</span>
       <h1 class="giftlist__title">{{ p.name }}</h1>
     </div>
+    <button 
+      class="giftlist__delete-btn"
+      (click)="deletePerson()"
+      aria-label="Slet person"
+    >
+      <i class="fa-solid fa-trash"></i>
+    </button>
   </div>
 
   <div class="giftlist__main">
@@ -142,14 +149,6 @@
       >
         <i class="fa-solid" [class.fa-check]="p.completed" [class.fa-flag-checkered]="!p.completed"></i>
         <span>{{ p.completed ? 'Færdig' : 'Marker som færdig' }}</span>
-      </button>
-      <button 
-        class="giftlist__delete"
-        (click)="deletePerson()"
-        aria-label="Slet person"
-      >
-        <i class="fa-solid fa-trash"></i>
-        <span>Slet</span>
       </button>
     </div>
   </div>
