@@ -15,13 +15,13 @@ export class Overview {
   private personService = inject(PersonService);
 
   // Get people from Firebase
-  people = toSignal(this.personService.getAll(), { initialValue: [] });
+  people = toSignal(this.personService.getAll(), { initialValue: undefined });
   isLoading = signal(true);
 
   constructor() {
     effect(() => {
       const persons = this.people();
-      if (persons) {
+      if (persons !== undefined) {
         this.isLoading.set(false);
       }
     });

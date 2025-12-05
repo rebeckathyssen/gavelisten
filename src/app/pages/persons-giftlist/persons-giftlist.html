@@ -34,19 +34,19 @@
       @if (activeTab() === 'wishlist') {
         <div class="wishes">
           @for (wish of wishlist(); track wish.id) {
-            <article class="wish-card">
+            <article class="wish-card" (click)="editWish(wish)">
               <div class="wish-card__header">
                 <h3 class="wish-card__name">{{ wish.name }}</h3>
                 <div class="wish-card__actions">
                   @if (wish.link) {
-                    <a [href]="wish.link" target="_blank" rel="noopener" class="wish-card__link" aria-label="Åbn link">
+                    <a [href]="wish.link" target="_blank" rel="noopener" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
                       <i class="fa-solid fa-link"></i>
                     </a>
                   }
-                  <button class="wish-card__btn" (click)="editWish(wish)" aria-label="Rediger">
+                  <button class="wish-card__btn" (click)="$event.stopPropagation(); editWish(wish)" aria-label="Rediger">
                     <i class="fa-solid fa-pen"></i>
                   </button>
-                  <button class="wish-card__btn wish-card__btn--delete" (click)="deleteWish(wish)" aria-label="Slet">
+                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(wish)" aria-label="Slet">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </div>
@@ -86,14 +86,14 @@
                 <h3 class="wish-card__name">{{ idea.name }}</h3>
                 <div class="wish-card__actions">
                   @if (idea.link) {
-                    <a [href]="idea.link" target="_blank" rel="noopener" class="wish-card__link" aria-label="Åbn link">
+                    <a [href]="idea.link" target="_blank" rel="noopener" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
                       <i class="fa-solid fa-link"></i>
                     </a>
                   }
-                  <button class="wish-card__btn" (click)="editWish(idea)" aria-label="Rediger">
+                  <button class="wish-card__btn" (click)="$event.stopPropagation(); editWish(idea)" aria-label="Rediger">
                     <i class="fa-solid fa-pen"></i>
                   </button>
-                  <button class="wish-card__btn wish-card__btn--delete" (click)="deleteWish(idea)" aria-label="Slet">
+                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(idea)" aria-label="Slet">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </div>

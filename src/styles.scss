@@ -35,7 +35,7 @@ body::after {
   position: fixed;
   top: -10%;
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.3);
   animation: snowfall linear infinite;
   pointer-events: none;
   z-index: 1;
@@ -80,7 +80,7 @@ body::after {
 .snowflake {
   position: absolute;
   top: -10%;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.3);
   animation: snowfall linear infinite;
   
   &:nth-child(1) { left: 25%; animation-duration: 14s; animation-delay: 1s; font-size: 16px; }
