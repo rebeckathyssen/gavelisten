@@ -151,6 +151,29 @@ form {
     i, span {
       color: var(--btn-green);
     }
+
+    &.status-btn--mangler {
+      border-color: var(--badge-red);
+      background: rgba(160, 50, 42, 0.1);
+      
+      i, span {
+        color: var(--badge-red);
+      }
+    }
+
+    &.status-btn--pakket-ind {
+      border: 3px solid transparent;
+      background: linear-gradient(var(--panel-sand), var(--panel-sand)) padding-box,
+                  linear-gradient(135deg, #ee3726, #005f43, #be112b, #016606) border-box;
+      
+      i, span {
+        background: linear-gradient(135deg, #8e2c24, #1f4b3e, #b4142c, #067427);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
   }
 }
 
@@ -158,60 +181,6 @@ form {
   display: flex;
   gap: 12px;
   margin-top: 32px;
-}
-
-.btn {
-  flex: 1;
-  border: 0;
-  border-radius: 12px;
-  padding: 16px 24px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  i {
-    font-size: 16px;
-  }
-
-  &--secondary {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--ink-dark);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-  }
-
-  &--primary {
-    background: var(--btn-green);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-}
-
-.loading {
-  text-align: center;
-  padding: 60px 20px;
-  color: #ffc279;
-  
-  p {
-    font-size: 20px;
-    font-weight: 600;
-  }
 }
 
 @media (max-width: 560px) {
@@ -265,10 +234,5 @@ form {
     span {
       font-size: 13px;
     }
-  }
-
-  .btn {
-    font-size: 16px;
-    padding: 14px 20px;
   }
 }

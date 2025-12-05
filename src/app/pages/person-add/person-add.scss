@@ -124,49 +124,6 @@ form {
   margin-top: 32px;
 }
 
-.btn {
-  flex: 1;
-  border: 0;
-  border-radius: 12px;
-  padding: 16px 24px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  i {
-    font-size: 16px;
-  }
-
-  &--secondary {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--ink-dark);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-  }
-
-  &--primary {
-    background: var(--btn-green);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-}
-
 @media (max-width: 560px) {
   .person-add__title {
     font-size: 28px;
@@ -197,10 +154,5 @@ form {
     width: 50px;
     height: 50px;
     font-size: 26px;
-  }
-
-  .btn {
-    font-size: 16px;
-    padding: 14px 20px;
   }
 }

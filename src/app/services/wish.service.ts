@@ -31,7 +31,10 @@ export class WishService {
 
   getByPerson(personId: string, type: WishType): Observable<Wish[]> {
     const uid = this.getCurrentUserId();
-    if (!uid) return new Observable(observer => observer.next([]));
+    if (!uid) {
+      console.warn('No user authenticated when fetching wishes');
+      return new Observable(observer => observer.next([]));
+    }
     
     const q = query(
       this.wishesCol, 

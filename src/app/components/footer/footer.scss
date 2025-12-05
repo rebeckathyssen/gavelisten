@@ -41,30 +41,6 @@
     }
   }
   
-  &__links {
-    display: flex;
-    gap: 12px;
-  }
-  
-  &__social {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    color: var(--panel-cream);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    text-decoration: none;
-    font-size: 16px;
-    transition: all 0.2s;
-    
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
-  }
-  
   &__privacy {
     margin: 0;
     font-size: 11px;

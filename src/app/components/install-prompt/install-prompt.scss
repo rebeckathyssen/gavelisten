@@ -185,38 +185,11 @@
   }
 }
 
-.btn {
-  width: 100%;
-  border: 0;
-  border-radius: 12px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  &--primary {
-    color: #fff;
-    background: var(--btn-green);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  &--secondary {
-    color: var(--ink-dark);
-    background: rgba(0, 0, 0, 0.05);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
+// Override shared .btn styles for install prompt (needs width: 100%)
+.install-prompt {
+  .btn {
+    width: 100%;
+    flex: initial;
   }
 }
 

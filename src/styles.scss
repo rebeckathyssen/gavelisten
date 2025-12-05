@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use './app/shared/shared-styles.scss';
+
 :root {
   --bg-deep-red: #8e2c24;
   --panel-sand: #e7c691;
@@ -8,22 +10,25 @@
   --badge-red: #a0322a;
   --badge-green: #1f4b3e;
   --badge-orange: #d18a2b;
+  --badge-lessgreen: #4a7c6a;
 
   --btn-green: #1f4b3e;
 
   --radius-xl: 28px;
   --radius-lg: 20px;
-  --shadow-soft: 0 8px 18px rgba(0,0,0,.12);
+  --shadow-soft: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   background: var(--bg-deep-red);
   color: var(--ink-dark);
   padding: 24px 0;
-  font-family: ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: ui-rounded, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   overflow-x: hidden;
   position: relative;
 }
@@ -82,10 +87,35 @@ body::after {
   top: -10%;
   color: rgba(255, 255, 255, 0.3);
   animation: snowfall linear infinite;
-  
-  &:nth-child(1) { left: 25%; animation-duration: 14s; animation-delay: 1s; font-size: 16px; }
-  &:nth-child(2) { left: 50%; animation-duration: 11s; animation-delay: 5s; font-size: 20px; }
-  &:nth-child(3) { left: 70%; animation-duration: 13s; animation-delay: 2s; font-size: 14px; }
-  &:nth-child(4) { left: 40%; animation-duration: 16s; animation-delay: 7s; font-size: 18px; }
-  &:nth-child(5) { left: 90%; animation-duration: 12s; animation-delay: 4s; font-size: 15px; }
+
+  &:nth-child(1) {
+    left: 25%;
+    animation-duration: 14s;
+    animation-delay: 1s;
+    font-size: 16px;
+  }
+  &:nth-child(2) {
+    left: 50%;
+    animation-duration: 11s;
+    animation-delay: 5s;
+    font-size: 20px;
+  }
+  &:nth-child(3) {
+    left: 70%;
+    animation-duration: 13s;
+    animation-delay: 2s;
+    font-size: 14px;
+  }
+  &:nth-child(4) {
+    left: 40%;
+    animation-duration: 16s;
+    animation-delay: 7s;
+    font-size: 18px;
+  }
+  &:nth-child(5) {
+    left: 90%;
+    animation-duration: 12s;
+    animation-delay: 4s;
+    font-size: 15px;
+  }
 }

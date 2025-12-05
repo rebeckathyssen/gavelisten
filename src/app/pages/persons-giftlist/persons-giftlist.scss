@@ -89,8 +89,7 @@
   z-index: 5;
 }
 
-.giftlist__complete,
-.giftlist__delete {
+.giftlist__complete {
   border: 2px solid transparent;
   background: var(--panel-sand);
   border-radius: 12px;
@@ -115,9 +114,7 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-}
 
-.giftlist__complete {
   &--active {
     background: var(--badge-green);
     color: #fff;
@@ -126,15 +123,6 @@
     &:hover {
       background: #1a3f34;
     }
-  }
-}
-
-.giftlist__delete {
-  color: var(--badge-red);
-
-  &:hover {
-    background: var(--badge-red);
-    color: #fff;
   }
 }
 
@@ -249,6 +237,14 @@
   }
 }
 
+.wish-card__btn--check {
+  color: var(--badge-green);
+
+  &:hover:not(:disabled) {
+    background: rgba(31, 75, 62, 0.15);
+  }
+}
+
 .wish-card__meta {
   display: flex;
   align-items: center;
@@ -281,7 +277,11 @@
     color: var(--badge-green);
   }
   &--pakket {
-    color: var(--badge-green);
+    background: linear-gradient(135deg, #039c1d, #035a00, #5aa701, #065717);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
@@ -321,24 +321,6 @@
 
   &:active {
     transform: translateY(0);
-  }
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(28, 59, 51, 0.5);
-
-  i {
-    font-size: 48px;
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  p {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
   }
 }
 

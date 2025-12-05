@@ -8,32 +8,32 @@
       <span class="giftlist__avatar">{{ p.avatar ?? '🙂' }}</span>
       <h1 class="giftlist__title">{{ p.name }}</h1>
     </div>
-    <button 
+    <button
       class="giftlist__delete-btn"
       (click)="deletePerson()"
       [disabled]="isDeletingPerson()"
       aria-label="Slet person"
     >
       @if (isDeletingPerson()) {
-        <i class="fa-solid fa-spinner fa-spin"></i>
+      <i class="fa-solid fa-spinner fa-spin"></i>
       } @else {
-        <i class="fa-solid fa-trash"></i>
+      <i class="fa-solid fa-trash"></i>
       }
     </button>
   </div>
 
   <div class="giftlist__main">
     <div class="tabs">
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.tab--active]="activeTab() === 'wishlist'"
         (click)="switchTab('wishlist')"
       >
         <i class="fa-solid fa-list"></i>
         Ønskeliste
       </button>
-      <button 
-        class="tab" 
+      <button
+        class="tab"
         [class.tab--active]="activeTab() === 'ideas'"
         (click)="switchTab('ideas')"
       >
@@ -44,107 +44,153 @@
 
     <div class="content">
       @if (activeTab() === 'wishlist') {
-        <div class="wishes">
-          @for (wish of wishlist(); track wish.id) {
-            <article class="wish-card" (click)="editWish(wish)">
-              <div class="wish-card__header">
-                <h3 class="wish-card__name">{{ wish.name }}</h3>
-                <div class="wish-card__actions">
-                  @if (wish.link) {
-                    <a [href]="normalizeUrl(wish.link)" target="_blank" rel="noopener noreferrer external" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
-                      <i class="fa-solid fa-link"></i>
-                    </a>
-                  }
-                  <button class="wish-card__btn" (click)="$event.stopPropagation(); editWish(wish)" aria-label="Rediger">
-                    <i class="fa-solid fa-pen"></i>
-                  </button>
-                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(wish)" [disabled]="deletingWishId() === wish.id" aria-label="Slet">
-                    @if (deletingWishId() === wish.id) {
-                      <i class="fa-solid fa-spinner fa-spin"></i>
-                    } @else {
-                      <i class="fa-solid fa-trash"></i>
-                    }
-                  </button>
-                </div>
-              </div>
-
-              <div class="wish-card__meta">
-                <span class="wish-card__price">
-                  {{ wish.price | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
-                </span>
-                <span 
-                  class="wish-card__status"
-                  [class.wish-card__status--mangler]="wish.status === 'mangler'"
-                  [class.wish-card__status--købt]="wish.status === 'købt'"
-                  [class.wish-card__status--pakket]="wish.status === 'pakket-ind'"
-                >
-                  <i class="fa-solid fa-{{ statusIcon(wish.status) }}"></i>
-                  {{ statusText(wish.status) }}
-                </span>
-              </div>
-
-              @if (wish.notes) {
-                <p class="wish-card__notes">{{ wish.notes }}</p>
+      <div class="wishes">
+        @for (wish of wishlist(); track wish.id) {
+        <article class="wish-card" (click)="editWish(wish)">
+          <div class="wish-card__header">
+            <h3 class="wish-card__name">{{ wish.name }}</h3>
+            <div class="wish-card__actions">
+              @if (wish.link) {
+              <a
+                [href]="normalizeUrl(wish.link)"
+                target="_blank"
+                rel="noopener noreferrer external"
+                class="wish-card__link"
+                aria-label="Åbn link"
+                (click)="$event.stopPropagation()"
+              >
+                <i class="fa-solid fa-link"></i>
+              </a>
+              } @if (wish.status !== 'pakket-ind') {
+              <button
+                class="wish-card__btn wish-card__btn--check"
+                (click)="$event.stopPropagation(); markAsBought(wish)"
+                [attr.aria-label]="
+                  wish.status === 'købt' ? 'Marker som pakket ind' : 'Marker som købt'
+                "
+              >
+                <i
+                  class="fa-solid"
+                  [class.fa-check]="wish.status === 'mangler'"
+                  [class.fa-gift]="wish.status === 'købt'"
+                ></i>
+              </button>
               }
-            </article>
-          } @empty {
-            <div class="empty-state">
-              <i class="fa-solid fa-gift"></i>
-              <p>Ingen ønsker endnu</p>
+              <button
+                class="wish-card__btn wish-card__btn--delete"
+                (click)="$event.stopPropagation(); deleteWish(wish)"
+                [disabled]="deletingWishId() === wish.id"
+                aria-label="Slet"
+              >
+                @if (deletingWishId() === wish.id) {
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                } @else {
+                <i class="fa-solid fa-trash"></i>
+                }
+              </button>
             </div>
+          </div>
+
+          <div class="wish-card__meta">
+            <span class="wish-card__price">
+              {{ wish.price | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
+            </span>
+            <span
+              class="wish-card__status"
+              [class.wish-card__status--mangler]="wish.status === 'mangler'"
+              [class.wish-card__status--købt]="wish.status === 'købt'"
+              [class.wish-card__status--pakket]="wish.status === 'pakket-ind'"
+            >
+              <i class="fa-solid fa-{{ statusIcon(wish.status) }}"></i>
+              {{ statusText(wish.status) }}
+            </span>
+          </div>
+
+          @if (wish.notes) {
+          <p class="wish-card__notes">{{ wish.notes }}</p>
           }
+        </article>
+        } @empty {
+        <div class="empty-state">
+          <i class="fa-solid fa-gift"></i>
+          <p>Ingen ønsker endnu</p>
         </div>
+        }
+      </div>
       } @else {
-        <div class="wishes">
-          @for (idea of ideas(); track idea.id) {
-            <article class="wish-card">
-              <div class="wish-card__header">
-                <h3 class="wish-card__name">{{ idea.name }}</h3>
-                <div class="wish-card__actions">
-                  @if (idea.link) {
-                    <a [href]="normalizeUrl(idea.link)" target="_blank" rel="noopener noreferrer external" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
-                      <i class="fa-solid fa-link"></i>
-                    </a>
-                  }
-                  <button class="wish-card__btn" (click)="$event.stopPropagation(); editWish(idea)" aria-label="Rediger">
-                    <i class="fa-solid fa-pen"></i>
-                  </button>
-                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(idea)" [disabled]="deletingWishId() === idea.id" aria-label="Slet">
-                    @if (deletingWishId() === idea.id) {
-                      <i class="fa-solid fa-spinner fa-spin"></i>
-                    } @else {
-                      <i class="fa-solid fa-trash"></i>
-                    }
-                  </button>
-                </div>
-              </div>
-
-              <div class="wish-card__meta">
-                <span class="wish-card__price">
-                  {{ idea.price | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
-                </span>
-                <span 
-                  class="wish-card__status"
-                  [class.wish-card__status--mangler]="idea.status === 'mangler'"
-                  [class.wish-card__status--købt]="idea.status === 'købt'"
-                  [class.wish-card__status--pakket]="idea.status === 'pakket-ind'"
-                >
-                  <i class="fa-solid fa-{{ statusIcon(idea.status) }}"></i>
-                  {{ statusText(idea.status) }}
-                </span>
-              </div>
-
-              @if (idea.notes) {
-                <p class="wish-card__notes">{{ idea.notes }}</p>
+      <div class="wishes">
+        @for (idea of ideas(); track idea.id) {
+        <article class="wish-card">
+          <div class="wish-card__header">
+            <h3 class="wish-card__name">{{ idea.name }}</h3>
+            <div class="wish-card__actions">
+              @if (idea.link) {
+              <a
+                [href]="normalizeUrl(idea.link)"
+                target="_blank"
+                rel="noopener noreferrer external"
+                class="wish-card__link"
+                aria-label="Åbn link"
+                (click)="$event.stopPropagation()"
+              >
+                <i class="fa-solid fa-link"></i>
+              </a>
+              } @if (idea.status !== 'pakket-ind') {
+              <button
+                class="wish-card__btn wish-card__btn--check"
+                (click)="$event.stopPropagation(); markAsBought(idea)"
+                [attr.aria-label]="
+                  idea.status === 'købt' ? 'Marker som pakket ind' : 'Marker som købt'
+                "
+              >
+                <i
+                  class="fa-solid"
+                  [class.fa-check]="idea.status === 'mangler'"
+                  [class.fa-gift]="idea.status === 'købt'"
+                ></i>
+              </button>
               }
-            </article>
-          } @empty {
-            <div class="empty-state">
-              <i class="fa-solid fa-lightbulb"></i>
-              <p>Ingen idéer endnu</p>
+              <button
+                class="wish-card__btn wish-card__btn--delete"
+                (click)="$event.stopPropagation(); deleteWish(idea)"
+                [disabled]="deletingWishId() === idea.id"
+                aria-label="Slet"
+              >
+                @if (deletingWishId() === idea.id) {
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                } @else {
+                <i class="fa-solid fa-trash"></i>
+                }
+              </button>
             </div>
+          </div>
+
+          <div class="wish-card__meta">
+            <span class="wish-card__price">
+              {{ idea.price | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
+            </span>
+            <span
+              class="wish-card__status"
+              [class.wish-card__status--mangler]="idea.status === 'mangler'"
+              [class.wish-card__status--købt]="idea.status === 'købt'"
+              [class.wish-card__status--pakket]="idea.status === 'pakket-ind'"
+            >
+              <i class="fa-solid fa-{{ statusIcon(idea.status) }}"></i>
+              {{ statusText(idea.status) }}
+            </span>
+          </div>
+
+          @if (idea.notes) {
+          <p class="wish-card__notes">{{ idea.notes }}</p>
           }
+        </article>
+        } @empty {
+        <div class="empty-state">
+          <i class="fa-solid fa-lightbulb"></i>
+          <p>Ingen idéer endnu</p>
         </div>
+        }
+      </div>
       }
 
       <button class="add-wish-btn" (click)="addWish()">
@@ -154,19 +200,22 @@
     </div>
 
     <div class="giftlist__actions">
-      <button 
+      <button
         class="giftlist__complete"
         [class.giftlist__complete--active]="p.completed"
         (click)="toggleComplete()"
         [attr.aria-label]="p.completed ? 'Marker som ikke færdig' : 'Marker som færdig'"
       >
-        <i class="fa-solid" [class.fa-check]="p.completed" [class.fa-flag-checkered]="!p.completed"></i>
+        <i
+          class="fa-solid"
+          [class.fa-check]="p.completed"
+          [class.fa-flag-checkered]="!p.completed"
+        ></i>
         <span>{{ p.completed ? 'Færdig' : 'Marker som færdig' }}</span>
       </button>
     </div>
   </div>
-  }
-  @else {
+  } @else {
   <div class="loading">
     <i class="fa-solid fa-spinner fa-spin"></i>
     <p>Indlæser...</p>

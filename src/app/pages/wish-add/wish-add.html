@@ -46,6 +46,8 @@
                 type="button"
                 class="status-btn"
                 [class.status-btn--selected]="selectedStatus() === status.value"
+                [class.status-btn--mangler]="status.value === 'mangler'"
+                [class.status-btn--pakket-ind]="status.value === 'pakket-ind'"
                 (click)="selectStatus(status.value)"
               >
                 <i class="fa-solid fa-{{ status.icon }}"></i>
@@ -63,7 +65,6 @@
           id="link" 
           [(ngModel)]="link" 
           name="link"
-          placeholder="https://..."
         />
       </div>
 
@@ -96,6 +97,7 @@
   </div>
   } @else {
   <div class="loading">
+    <i class="fa-solid fa-spinner fa-spin"></i>
     <p>Indlæser...</p>
   </div>
   }
