@@ -24,6 +24,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "public",
+                "output": "/"
+              },
+              {
+                "glob": "service-worker.js",
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
@@ -78,6 +88,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "public",
+                "output": "/"
+              },
+              {
+                "glob": "service-worker.js",
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [

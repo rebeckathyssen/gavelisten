@@ -1,0 +1,59 @@
+@if (shouldShow()) {
+  <div class="install-prompt">
+    <div class="install-prompt__content">
+      @if (!showInstructions()) {
+        <div class="install-prompt__main">
+          <button class="install-prompt__close" (click)="dismiss()" aria-label="Luk">
+            <i class="fa-solid fa-times"></i>
+          </button>
+
+          <div class="install-prompt__icon">
+            <img src="/logo.png" alt="Gavelisten" />
+          </div>
+
+          <h2 class="install-prompt__title">Installer Gavelisten</h2>
+          <p class="install-prompt__text">
+            Installér Gavelisten som app og få en bedre oplevelse, hurtigere adgang og offline funktionalitet.<br>
+            Hvis du ikke ønsker at installere appen, skal du være opmærksom på, at personer og ønsker gemmes lokalt i din browsers lager. Skift af browser eller session vil derfor medføre tab af data.
+          </p>
+
+          <div class="install-prompt__actions">
+            @if (isInstallable()) {
+              <button class="btn btn--primary" (click)="installApp()">
+                <i class="fa-solid fa-download"></i>
+                Installer nu
+              </button>
+            }
+            <button class="btn btn--secondary" (click)="showManualInstructions()">
+              <i class="fa-solid fa-circle-info"></i>
+              Vis vejledning
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="install-prompt__instructions">
+          <button class="install-prompt__back" (click)="showInstructions.set(false)" aria-label="Tilbage">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+
+          <div class="install-prompt__icon install-prompt__icon--small">
+            <i class="fa-solid fa-circle-down fa-3x"></i>
+          </div>
+
+          <h2 class="install-prompt__title">Sådan installerer du</h2>
+          
+          <ol class="instruction-steps">
+            @for (step of instructions.steps; track $index) {
+              <li class="instruction-step" [innerHTML]="step"></li>
+            }
+          </ol>
+
+          <button class="btn btn--secondary" (click)="dismiss()">
+            Forstået
+          </button>
+        </div>
+      }
+    </div>
+    <div class="install-prompt__overlay" (click)="dismiss()"></div>
+  </div>
+}

@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { Overview } from "./pages/overview/overview";
 import { RouterOutlet } from '@angular/router';
+import { InstallPrompt } from './components/install-prompt/install-prompt';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, InstallPrompt],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
