@@ -11,9 +11,14 @@
     <button 
       class="giftlist__delete-btn"
       (click)="deletePerson()"
+      [disabled]="isDeletingPerson()"
       aria-label="Slet person"
     >
-      <i class="fa-solid fa-trash"></i>
+      @if (isDeletingPerson()) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+      } @else {
+        <i class="fa-solid fa-trash"></i>
+      }
     </button>
   </div>
 
@@ -53,8 +58,12 @@
                   <button class="wish-card__btn" (click)="$event.stopPropagation(); editWish(wish)" aria-label="Rediger">
                     <i class="fa-solid fa-pen"></i>
                   </button>
-                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(wish)" aria-label="Slet">
-                    <i class="fa-solid fa-trash"></i>
+                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(wish)" [disabled]="deletingWishId() === wish.id" aria-label="Slet">
+                    @if (deletingWishId() === wish.id) {
+                      <i class="fa-solid fa-spinner fa-spin"></i>
+                    } @else {
+                      <i class="fa-solid fa-trash"></i>
+                    }
                   </button>
                 </div>
               </div>
@@ -100,8 +109,12 @@
                   <button class="wish-card__btn" (click)="$event.stopPropagation(); editWish(idea)" aria-label="Rediger">
                     <i class="fa-solid fa-pen"></i>
                   </button>
-                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(idea)" aria-label="Slet">
-                    <i class="fa-solid fa-trash"></i>
+                  <button class="wish-card__btn wish-card__btn--delete" (click)="$event.stopPropagation(); deleteWish(idea)" [disabled]="deletingWishId() === idea.id" aria-label="Slet">
+                    @if (deletingWishId() === idea.id) {
+                      <i class="fa-solid fa-spinner fa-spin"></i>
+                    } @else {
+                      <i class="fa-solid fa-trash"></i>
+                    }
                   </button>
                 </div>
               </div>

@@ -16,6 +16,7 @@ export class PersonAdd {
   name = signal('');
   budget = signal(500);
   selectedAvatar = signal('🙂');
+  isSaving = signal(false);
 
   avatars = ['🙂', '👨', '👩', '🧑', '👦', '👧', '🧒', '👴', '👵', '👶', '🧔', '👨‍🦰', '👩‍🦰', '👨‍🦱', '👩‍🦱', '🎅'];
 
@@ -29,6 +30,7 @@ export class PersonAdd {
       return;
     }
 
+    this.isSaving.set(true);
     try {
       await this.personService.add({
         name: this.name(),
@@ -40,6 +42,8 @@ export class PersonAdd {
     } catch (error) {
       console.error('Error adding person:', error);
       alert('Der opstod en fejl. Prøv igen.');
+    } finally {
+      this.isSaving.set(false);
     }
   }
 

@@ -53,6 +53,7 @@ export class WishAdd {
   notes = signal('');
   link = signal('');
   selectedStatus = signal<WishStatus>('mangler');
+  isSaving = signal(false);
 
   statuses: { value: WishStatus; label: string; icon: string }[] = [
     { value: 'mangler', label: 'Mangler', icon: 'circle' },
@@ -84,6 +85,7 @@ export class WishAdd {
     const personId = this.personId();
     if (!personId) return;
 
+    this.isSaving.set(true);
     try {
       const wishData: any = {
         personId,
@@ -107,6 +109,8 @@ export class WishAdd {
     } catch (error) {
       console.error('Error adding wish:', error);
       alert('Der opstod en fejl. Prøv igen.');
+    } finally {
+      this.isSaving.set(false);
     }
   }
 

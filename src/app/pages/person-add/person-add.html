@@ -50,12 +50,17 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn--secondary" (click)="cancel()">
+        <button type="button" class="btn btn--secondary" (click)="cancel()" [disabled]="isSaving()">
           Annuller
         </button>
-        <button type="submit" class="btn btn--primary">
-          <i class="fa-solid fa-check"></i>
-          Gem
+        <button type="submit" class="btn btn--primary" [disabled]="isSaving()">
+          @if (isSaving()) {
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Gemmer...
+          } @else {
+            <i class="fa-solid fa-check"></i>
+            Gem
+          }
         </button>
       </div>
     </form>

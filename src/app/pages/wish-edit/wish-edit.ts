@@ -48,6 +48,7 @@ export class WishEdit {
   selectedStatus = signal<WishStatus>('mangler');
   wishType = signal<WishType>('wishlist');
   isLoading = signal(true);
+  isSaving = signal(false);
 
   tab = toSignal(
     this.route.queryParamMap.pipe(
@@ -126,6 +127,7 @@ export class WishEdit {
     const wishId = this.wishId();
     if (!personId || !wishId) return;
 
+    this.isSaving.set(true);
     try {
       const wishData: any = {
         name: this.name(),
@@ -147,6 +149,8 @@ export class WishEdit {
     } catch (error) {
       console.error('Error updating wish:', error);
       alert('Der opstod en fejl. Prøv igen.');
+    } finally {
+      this.isSaving.set(false);
     }
   }
 

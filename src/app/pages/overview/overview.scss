@@ -10,8 +10,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   color: #ffc279;
   margin-bottom: 16px;
+}
+
+.gift-app__header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .gift-app__title {
@@ -20,7 +27,25 @@
   margin: 0;
   font-weight: 700;
   font-family: 'Berkshire Swash', serif;
-  margin-left: 10px;
+}
+
+.gift-app__credits {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 194, 121, 0.85);
+  font-weight: 500;
+}
+
+.gift-app__link {
+  color: var(--panel-cream);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
 }
 
 .gift-app__icon {

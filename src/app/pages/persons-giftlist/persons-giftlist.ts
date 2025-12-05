@@ -19,6 +19,8 @@ export class PersonsGiftlist {
   private wishService = inject(WishService);
   
   activeTab = signal<'wishlist' | 'ideas'>('wishlist');
+  isDeletingPerson = signal(false);
+  deletingWishId = signal<string | null>(null);
 
   constructor() {
     // Read tab from query params and update activeTab
@@ -113,10 +115,14 @@ export class PersonsGiftlist {
     if (!wish.id) return;
     
     if (confirm(`Er du sikker på at du vil slette "${wish.name}"?`)) {
+      this.deletingWishId.set(wish.id);
       try {
         await this.wishService.delete(wish.id);
       } catch (error) {
         console.error('Error deleting wish:', error);
+        alert('Der opstod en fejl ved sletning. Prøv igen.');
+      } finally {
+        this.deletingWishId.set(null);
       }
     }
   }
@@ -148,12 +154,15 @@ export class PersonsGiftlist {
     if (!p || !p.id) return;
 
     if (confirm(`Er du sikker på at du vil slette ${p.name}? Dette vil også slette alle ønsker og idéer.`)) {
+      this.isDeletingPerson.set(true);
       try {
         await this.personService.delete(p.id);
         this.router.navigate(['/']);
       } catch (error) {
         console.error('Error deleting person:', error);
         alert('Der opstod en fejl ved sletning. Prøv igen.');
+      } finally {
+        this.isDeletingPerson.set(false);
       }
     }
   }
