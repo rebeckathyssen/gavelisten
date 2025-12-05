@@ -73,6 +73,17 @@ export class PersonsGiftlist {
     this.activeTab.set(tab);
   }
 
+  normalizeUrl(url: string): string {
+    if (!url) return '';
+    const trimmed = url.trim();
+    // Check if URL already has a protocol
+    if (trimmed.match(/^[a-zA-Z]+:\/\//)) {
+      return trimmed;
+    }
+    // Add https:// if missing
+    return `https://${trimmed}`;
+  }
+
   statusText(status: WishStatus) {
     switch (status) {
       case 'mangler': return 'Mangler';

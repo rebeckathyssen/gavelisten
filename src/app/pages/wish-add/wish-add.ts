@@ -64,6 +64,17 @@ export class WishAdd {
     this.selectedStatus.set(status);
   }
 
+  normalizeUrl(url: string): string {
+    if (!url) return '';
+    const trimmed = url.trim();
+    // Check if URL already has a protocol
+    if (trimmed.match(/^[a-zA-Z]+:\/\//)) {
+      return trimmed;
+    }
+    // Add https:// if missing
+    return `https://${trimmed}`;
+  }
+
   async save() {
     if (!this.name().trim()) {
       alert('Indtast venligst et navn');
@@ -83,10 +94,10 @@ export class WishAdd {
         status: this.selectedStatus(),
       };
       
-      // Only add link if it has a value
+      // Only add link if it has a value, and normalize it
       const linkValue = this.link().trim();
       if (linkValue) {
-        wishData.link = linkValue;
+        wishData.link = this.normalizeUrl(linkValue);
       }
       
       await this.wishService.add(wishData);

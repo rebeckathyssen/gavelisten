@@ -46,7 +46,7 @@
                 <h3 class="wish-card__name">{{ wish.name }}</h3>
                 <div class="wish-card__actions">
                   @if (wish.link) {
-                    <a [href]="wish.link" target="_blank" rel="noopener" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
+                    <a [href]="normalizeUrl(wish.link)" target="_blank" rel="noopener noreferrer external" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
                       <i class="fa-solid fa-link"></i>
                     </a>
                   }
@@ -93,7 +93,7 @@
                 <h3 class="wish-card__name">{{ idea.name }}</h3>
                 <div class="wish-card__actions">
                   @if (idea.link) {
-                    <a [href]="idea.link" target="_blank" rel="noopener" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
+                    <a [href]="normalizeUrl(idea.link)" target="_blank" rel="noopener noreferrer external" class="wish-card__link" aria-label="Åbn link" (click)="$event.stopPropagation()">
                       <i class="fa-solid fa-link"></i>
                     </a>
                   }
