@@ -1,378 +1,135 @@
-.giftlist {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 0 18px 24px;
-  position: relative;
-  z-index: 10;
+.giftlist { max-width: 820px; margin: 0 auto; padding: 0 18px 24px; position: relative; z-index: 10 }
+
+.giftlist__header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-top: 12px; position: relative }
+.giftlist__back,
+.giftlist__menu-btn {
+  width: 44px; height: 44px; border: 0; background: var(--panel-sand); border-radius: 50%; display: grid;
+  place-items: center; cursor: pointer; transition: all .2s; color: var(--ink-dark); font-size: 18px;
+  &:hover { background: var(--panel-cream) }
+}
+.giftlist__back:hover { transform: translateX(-2px) }
+.giftlist__person { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0 }
+.giftlist__menu-wrapper { position: relative }
+.giftlist__menu-btn:hover { transform: scale(1.05) }
+
+.giftlist__dropdown { position: absolute; top: 0; right: 0; z-index: 100 }
+.giftlist__dropdown-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1 }
+.giftlist__dropdown-menu { position: relative; z-index: 2; background: var(--panel-cream); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.2); padding: 8px; min-width: 200px; margin-top: 8px; animation: dropdownSlide .2s ease-out }
+@keyframes dropdownSlide { from { opacity: 0; transform: translateY(-8px) } to { opacity: 1; transform: translateY(0) } }
+.giftlist__dropdown-item {
+  width: 100%; border: 0; background: transparent; padding: 12px 16px; font-size: 16px; font-weight: 600;
+  color: var(--ink-dark); cursor: pointer; transition: all .2s; display: flex; align-items: center;
+  gap: 12px; border-radius: 8px; text-align: left;
+  i { font-size: 14px; width: 16px }
+  &:hover { background: rgba(0,0,0,.05) }
+  &--danger { color: var(--badge-red) }
+  &--danger:hover { background: rgba(160,50,42,.1) }
+  &:disabled { opacity: .6; cursor: not-allowed }
 }
 
-.giftlist__header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  padding-top: 12px;
-  position: relative;
+.giftlist__delete-btn,
+.giftlist__edit-btn {
+  width: 44px; height: 44px; border: 0; background: var(--panel-sand); border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; transition: all .2s; font-size: 18px;
+  &:hover { color: #fff; transform: scale(1.05) }
 }
+.giftlist__delete-btn { color: var(--badge-red); &:hover { background: var(--badge-red) } }
+.giftlist__edit-btn { color: var(--btn-green); font-size: 16px; &:hover { background: var(--btn-green) } }
 
-.giftlist__back {
-  width: 44px;
-  height: 44px;
-  border: 0;
-  background: var(--panel-sand);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--ink-dark);
-  font-size: 18px;
+.giftlist__avatar { width: 56px; height: 56px; border-radius: 50%; background: #164038; display: grid; place-items: center; font-size: 28px; flex-shrink: 0 }
+.giftlist__title { font-size: 36px; font-weight: 700; color: #ffc279; margin: 0; font-family: 'Berkshire Swash',serif; min-width: 0; word-break: break-word; line-height: 1.1 }
 
-  &:hover {
-    background: var(--panel-cream);
-    transform: translateX(-2px);
-  }
-}
-
-.giftlist__person {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-}
-
-.giftlist__delete-btn {
-  width: 44px;
-  height: 44px;
-  border: 0;
-  background: var(--panel-sand);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--badge-red);
-  font-size: 18px;
-
-  &:hover {
-    background: var(--badge-red);
-    color: #fff;
-    transform: scale(1.05);
-  }
-}
-
-.giftlist__avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #164038;
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-}
-
-.giftlist__title {
-  font-size: 36px;
-  font-weight: 700;
-  color: #ffc279;
-  margin: 0;
-  font-family: 'Berkshire Swash', serif;
-}
-
-.giftlist__actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  position: sticky;
-  top: 20px;
-  z-index: 5;
-}
+.giftlist__actions { margin-top: 20px; display: flex; gap: 12px; justify-content: flex-end; position: sticky; top: 20px; z-index: 5 }
 
 .giftlist__complete {
-  border: 2px solid transparent;
-  background: var(--panel-sand);
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--ink-dark);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  flex-shrink: 0;
-
-  i {
-    font-size: 16px;
-  }
-
-  &:hover {
-    background: var(--panel-cream);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  &--active {
-    background: var(--badge-green);
-    color: #fff;
-    border-color: var(--badge-green);
-
-    &:hover {
-      background: #1a3f34;
-    }
-  }
+  border: 2px solid transparent; background: var(--panel-sand); border-radius: 12px; padding: 12px 20px;
+  font-size: 16px; font-weight: 700; color: var(--ink-dark); cursor: pointer; transition: all .2s;
+  display: flex; align-items: center; gap: 8px; white-space: nowrap; flex-shrink: 0;
+  i { font-size: 16px }
+  &:hover { background: var(--panel-cream); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.1) }
+  &--active { background: var(--badge-green); color: #fff; border-color: var(--badge-green) }
+  &--active:hover { background: #1a3f34 }
 }
 
-.tabs {
-  display: flex;
-  gap: 12px;
-  background: var(--panel-sand);
-  border-radius: var(--radius-lg);
-  padding: 8px;
-  margin-bottom: 20px;
-}
+.tabs { display: flex; gap: 12px; background: var(--panel-sand); border-radius: var(--radius-lg); padding: 8px; margin-bottom: 20px }
 
 .tab {
-  flex: 1;
-  border: 0;
-  background: transparent;
-  padding: 14px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--ink-dark);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  i {
-    font-size: 14px;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  &--active {
-    background: var(--panel-cream);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
+  flex: 1; border: 0; background: transparent; padding: 14px 20px; font-size: 16px; font-weight: 600;
+  color: var(--ink-dark); border-radius: 12px; cursor: pointer; transition: all .2s; display: flex;
+  align-items: center; justify-content: center; gap: 8px;
+  i { font-size: 14px }
+  &:hover { background: rgba(255,255,255,.3) }
+  &--active { background: var(--panel-cream); box-shadow: 0 2px 8px rgba(0,0,0,.1) }
 }
 
-.content {
-  background: var(--panel-sand);
-  border-radius: var(--radius-xl);
-  padding: 22px;
-  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.05);
-}
-
-.wishes {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.wish-card {
-  background: var(--panel-cream);
-  border-radius: var(--radius-lg);
-  padding: 18px;
-  box-shadow: var(--shadow-soft);
-}
-
-.wish-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.wish-card__name {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--ink-dark);
-  margin: 0;
-  line-height: 1.2;
-  flex: 1;
-}
-
-.wish-card__actions {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-}
+.content { background: var(--panel-sand); border-radius: var(--radius-xl); padding: 22px; box-shadow: inset 0 0 0 2px rgba(0,0,0,.05) }
+.wishes { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px }
+.wish-card { background: var(--panel-cream); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-soft) }
+.wish-card__header { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 12px }
+.wish-card__name { font-size: 22px; font-weight: 700; color: var(--ink-dark); margin: 0; line-height: 1.2; flex: 1 }
+.wish-card__actions { display: flex; gap: 8px; flex-shrink: 0 }
 
 .wish-card__link,
 .wish-card__btn {
-  width: 36px;
-  height: 36px;
-  border: 0;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--ink-dark);
-  font-size: 14px;
-  text-decoration: none;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
+  width: 36px; height: 36px; border: 0; background: rgba(0,0,0,.05); border-radius: 8px;
+  display: grid; place-items: center; cursor: pointer; transition: all .2s; color: var(--ink-dark);
+  font-size: 14px; text-decoration: none;
+  &:hover { background: rgba(0,0,0,.1) }
 }
+.wish-card__btn--delete { color: var(--badge-red); &:hover { background: rgba(160,50,42,.1) } }
+.wish-card__btn--check { color: var(--badge-green); &:hover:not(:disabled) { background: rgba(31,75,62,.15) } }
 
-.wish-card__btn--delete {
-  color: var(--badge-red);
-
-  &:hover {
-    background: rgba(160, 50, 42, 0.1);
-  }
-}
-
-.wish-card__btn--check {
-  color: var(--badge-green);
-
-  &:hover:not(:disabled) {
-    background: rgba(31, 75, 62, 0.15);
-  }
-}
-
-.wish-card__meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 10px;
-}
-
-.wish-card__price {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--ink-dark);
-}
-
+.wish-card__meta { display: flex; align-items: center; gap: 16px; margin-bottom: 10px }
+.wish-card__price { font-size: 20px; font-weight: 700; color: var(--ink-dark) }
 .wish-card__status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1;
-
-  i {
-    font-size: 13px;
-  }
-
-  &--mangler {
-    color: var(--badge-red);
-  }
-  &--købt {
-    color: var(--badge-green);
-  }
-  &--pakket {
-    background: linear-gradient(135deg, #039c1d, #035a00, #5aa701, #065717);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; line-height: 1;
+  i { font-size: 13px }
+  &--mangler { color: var(--badge-red) }
+  &--købt { color: var(--badge-green) }
+  &--pakket { background: linear-gradient(135deg,#039c1d,#035a00,#5aa701,#065717); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text }
 }
-
-.wish-card__notes {
-  margin: 0;
-  font-size: 15px;
-  color: rgba(28, 59, 51, 0.7);
-  line-height: 1.4;
-}
+.wish-card__notes { margin: 0; font-size: 15px; color: rgba(28,59,51,.7); line-height: 1.4 }
 
 .add-wish-btn {
-  width: 100%;
-  border: 0;
-  border-radius: 16px;
-  padding: 18px 28px;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  background: var(--btn-green);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  width: 100%; border: 0; border-radius: 16px; padding: 18px 28px; font-size: 18px; font-weight: 700;
+  color: #fff; background: var(--btn-green); box-shadow: 0 4px 12px rgba(0,0,0,.15); cursor: pointer;
+  letter-spacing: .5px; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+  i { font-size: 16px }
+  &:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.2) }
+  &:active { transform: translateY(0) }
+}
 
-  i {
-    font-size: 16px;
-  }
+.edit-person-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px }
+.edit-person-modal__overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.7); backdrop-filter: blur(4px) }
+.edit-person-modal__content { position: relative; z-index: 1; background: var(--panel-cream); border-radius: var(--radius-xl); padding: 32px; max-width: 500px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.3); animation: slideUp .3s ease-out }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px) } to { opacity: 1; transform: translateY(0) } }
+.edit-person-modal__title { font-size: 28px; font-weight: 700; color: var(--ink-dark); margin: 0 0 24px 0; font-family: 'Berkshire Swash',serif }
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  &:active {
-    transform: translateY(0);
+.form-group {
+  margin-bottom: 20px;
+  label { display: block; font-size: 16px; font-weight: 700; color: var(--ink-dark); margin-bottom: 8px }
+  input[type="text"],input[type="number"] {
+    width: 100%; padding: 12px 16px; font-size: 16px; border: 2px solid rgba(0,0,0,.08);
+    border-radius: 12px; background: white; color: var(--ink-dark); font-family: inherit; transition: all .2s;
+    &:focus { outline: none; border-color: var(--btn-green); box-shadow: 0 0 0 3px rgba(31,75,62,.1) }
   }
 }
+.form-actions { display: flex; gap: 12px; margin-top: 24px }
 
 @media (max-width: 560px) {
-  .giftlist__title {
-    font-size: 28px;
-  }
-
-  .giftlist__avatar {
-    width: 48px;
-    height: 48px;
-    font-size: 24px;
-  }
-
-  .tab {
-    font-size: 14px;
-    padding: 12px 16px;
-
-    i {
-      font-size: 12px;
-    }
-  }
-
-  .wish-card {
-    padding: 14px;
-  }
-
-  .wish-card__name {
-    font-size: 18px;
-  }
-
-  .wish-card__link,
-  .wish-card__btn {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
-  }
-
-  .wish-card__price {
-    font-size: 18px;
-  }
-
-  .wish-card__status {
-    font-size: 13px;
-  }
-
-  .wish-card__notes {
-    font-size: 14px;
-  }
-
-  .add-wish-btn {
-    font-size: 16px;
-    padding: 16px;
-  }
+  .giftlist__title { font-size: 28px }
+  .giftlist__avatar { width: 48px; height: 48px; font-size: 24px }
+  .giftlist__menu-btn { width: 40px; height: 40px }
+  .giftlist__dropdown-menu { min-width: 180px }
+  .giftlist__dropdown-item { padding: 10px 14px }
+  .tab { font-size: 14px; padding: 12px 16px }
+  .tab i { font-size: 12px }
+  .wish-card { padding: 14px }
+  .wish-card__name { font-size: 18px }
+  .wish-card__link,.wish-card__btn { width: 32px; height: 32px }
+  .wish-card__price,.add-wish-btn { font-size: 16px }
+  .add-wish-btn { padding: 16px }
+  .edit-person-modal__content { padding: 24px 20px }
+  .edit-person-modal__title { font-size: 24px }
 }
+

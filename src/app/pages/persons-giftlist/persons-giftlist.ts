@@ -1,6 +1,7 @@
 import { Component, signal, inject, computed, effect } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PersonService } from '../../services/person.service';
 import { WishService, WishStatus, Wish } from '../../services/wish.service';
@@ -9,7 +10,7 @@ import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-persons-giftlist',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, FormsModule],
   templateUrl: './persons-giftlist.html',
   styleUrl: './persons-giftlist.scss',
 })
@@ -23,6 +24,11 @@ export class PersonsGiftlist {
   activeTab = signal<'wishlist' | 'ideas'>('wishlist');
   isDeletingPerson = signal(false);
   deletingWishId = signal<string | null>(null);
+  isEditingPerson = signal(false);
+  editName = signal('');
+  editBudget = signal(0);
+  isSavingPerson = signal(false);
+  showPersonMenu = signal(false);
 
   // Get person ID from route
   private personId = toSignal(
@@ -175,6 +181,8 @@ export class PersonsGiftlist {
     const p = this.person();
     if (!p || !p.id) return;
 
+    this.showPersonMenu.set(false);
+    
     if (
       confirm(
         `Er du sikker på at du vil slette ${p.name}? Dette vil også slette alle ønsker og idéer.`
@@ -190,6 +198,59 @@ export class PersonsGiftlist {
       } finally {
         this.isDeletingPerson.set(false);
       }
+    }
+  }
+  startEditingPerson() {
+    const p = this.person();
+    if (!p) return;
+    
+    this.editName.set(p.name);
+    this.editBudget.set(p.budget);
+    this.isEditingPerson.set(true);
+    this.showPersonMenu.set(false);
+  }
+
+  cancelEditingPerson() {
+    this.isEditingPerson.set(false);
+  }
+
+  togglePersonMenu() {
+    this.showPersonMenu.update(val => !val);
+  }
+
+  closePersonMenu() {
+    this.showPersonMenu.set(false);
+  }
+
+  async savePersonEdit() {
+    const p = this.person();
+    if (!p || !p.id) return;
+
+    const name = this.editName().trim();
+    const budget = this.editBudget();
+
+    if (!name) {
+      alert('Navnet må ikke være tomt');
+      return;
+    }
+
+    if (budget < 0) {
+      alert('Budget skal være et positivt tal');
+      return;
+    }
+
+    this.isSavingPerson.set(true);
+    try {
+      await this.personService.update(p.id, {
+        name,
+        budget,
+      });
+      this.isEditingPerson.set(false);
+    } catch (error) {
+      console.error('Error updating person:', error);
+      alert('Der opstod en fejl ved opdatering. Prøv igen.');
+    } finally {
+      this.isSavingPerson.set(false);
     }
   }
 

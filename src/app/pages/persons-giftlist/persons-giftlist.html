@@ -8,19 +8,102 @@
       <span class="giftlist__avatar">{{ p.avatar ?? '🙂' }}</span>
       <h1 class="giftlist__title">{{ p.name }}</h1>
     </div>
-    <button
-      class="giftlist__delete-btn"
-      (click)="deletePerson()"
-      [disabled]="isDeletingPerson()"
-      aria-label="Slet person"
-    >
-      @if (isDeletingPerson()) {
-      <i class="fa-solid fa-spinner fa-spin"></i>
-      } @else {
-      <i class="fa-solid fa-trash"></i>
+    <div class="giftlist__menu-wrapper">
+      <button
+        class="giftlist__menu-btn"
+        (click)="togglePersonMenu()"
+        aria-label="Åbn menu"
+      >
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </button>
+      
+      @if (showPersonMenu()) {
+      <div class="giftlist__dropdown">
+        <div class="giftlist__dropdown-overlay" (click)="closePersonMenu()"></div>
+        <div class="giftlist__dropdown-menu">
+          <button
+            class="giftlist__dropdown-item"
+            (click)="startEditingPerson()"
+          >
+            <i class="fa-solid fa-pencil"></i>
+            <span>Rediger person</span>
+          </button>
+          <button
+            class="giftlist__dropdown-item giftlist__dropdown-item--danger"
+            (click)="deletePerson()"
+            [disabled]="isDeletingPerson()"
+          >
+            @if (isDeletingPerson()) {
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            } @else {
+            <i class="fa-solid fa-trash"></i>
+            }
+            <span>Slet person</span>
+          </button>
+        </div>
+      </div>
       }
-    </button>
+    </div>
   </div>
+
+  @if (isEditingPerson()) {
+  <div class="edit-person-modal">
+    <div class="edit-person-modal__overlay" (click)="cancelEditingPerson()"></div>
+    <div class="edit-person-modal__content">
+      <h2 class="edit-person-modal__title">Rediger {{ p.name }}</h2>
+      
+      <form (ngSubmit)="savePersonEdit()">
+        <div class="form-group">
+          <label for="edit-name">Navn</label>
+          <input
+            type="text"
+            id="edit-name"
+            [(ngModel)]="editName"
+            name="name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="edit-budget">Budget (DKK)</label>
+          <input
+            type="number"
+            id="edit-budget"
+            [(ngModel)]="editBudget"
+            name="budget"
+            min="0"
+            step="50"
+            required
+          />
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn--secondary"
+            (click)="cancelEditingPerson()"
+            [disabled]="isSavingPerson()"
+          >
+            Annuller
+          </button>
+          <button
+            type="submit"
+            class="btn btn--primary"
+            [disabled]="isSavingPerson()"
+          >
+            @if (isSavingPerson()) {
+              <i class="fa-solid fa-spinner fa-spin"></i>
+              Gemmer...
+            } @else {
+              <i class="fa-solid fa-check"></i>
+              Gem
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
 
   <div class="giftlist__main">
     <div class="tabs">
@@ -120,7 +203,7 @@
       } @else {
       <div class="wishes">
         @for (idea of ideas(); track idea.id) {
-        <article class="wish-card">
+        <article class="wish-card" (click)="editWish(idea)">
           <div class="wish-card__header">
             <h3 class="wish-card__name">{{ idea.name }}</h3>
             <div class="wish-card__actions">
