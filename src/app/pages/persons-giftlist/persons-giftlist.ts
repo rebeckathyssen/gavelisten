@@ -7,10 +7,11 @@ import { PersonService } from '../../services/person.service';
 import { WishService, WishStatus, Wish } from '../../services/wish.service';
 import { switchMap, of } from 'rxjs';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { WishAdderLogic, ParsedWish } from '../../components/wish-adder-logic/wish-adder-logic';
 
 @Component({
   selector: 'app-persons-giftlist',
-  imports: [CurrencyPipe, FormsModule],
+  imports: [CurrencyPipe, FormsModule, WishAdderLogic],
   templateUrl: './persons-giftlist.html',
   styleUrl: './persons-giftlist.scss',
 })
@@ -29,6 +30,8 @@ export class PersonsGiftlist {
   editBudget = signal(0);
   isSavingPerson = signal(false);
   showPersonMenu = signal(false);
+  showWishUploader = signal(false);
+  isUploadingWishes = signal(false);
 
   // Get person ID from route
   private personId = toSignal(
@@ -256,5 +259,51 @@ export class PersonsGiftlist {
 
   close() {
     this.router.navigate(['/']);
+  }
+
+  openWishUploader() {
+    this.showWishUploader.set(true);
+  }
+
+  closeWishUploader() {
+    this.showWishUploader.set(false);
+  }
+
+  async handleBulkWishes(parsedWishes: ParsedWish[]) {
+    const personId = this.personId();
+    if (!personId) return;
+
+    this.isUploadingWishes.set(true);
+
+    try {
+      // Convert parsed wishes to Wish objects
+      const wishes = parsedWishes.map((pw) => {
+        const wish: any = {
+          personId,
+          type: this.activeTab(),
+          name: pw.name,
+          price: 0,
+          notes: '',
+          status: 'mangler' as WishStatus,
+        };
+        
+        // Only add link if it exists
+        if (pw.link) {
+          wish.link = pw.link;
+        }
+        
+        return wish;
+      });
+
+      // Add all wishes in bulk
+      await this.wishService.addBulk(wishes);
+
+      this.showWishUploader.set(false);
+    } catch (error) {
+      console.error('Error uploading wishes:', error);
+      alert('Der opstod en fejl ved upload af ønsker. Prøv igen.');
+    } finally {
+      this.isUploadingWishes.set(false);
+    }
   }
 }

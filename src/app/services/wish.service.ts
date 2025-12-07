@@ -103,4 +103,24 @@ export class WishService {
     
     await batch.commit();
   }
+
+  async addBulk(wishes: Omit<Wish, 'id' | 'createdAt' | 'ownerId'>[]): Promise<void> {
+    const uid = this.getCurrentUserId();
+    if (!uid) throw new Error('User not authenticated');
+    
+    const batch = writeBatch(this.firestore);
+    const timestamp = Timestamp.now();
+    
+    wishes.forEach((wish) => {
+      const docRef = doc(collection(this.firestore, 'wishes'));
+      const newWish = {
+        ...wish,
+        ownerId: uid,
+        createdAt: timestamp,
+      };
+      batch.set(docRef, newWish);
+    });
+    
+    await batch.commit();
+  }
 }

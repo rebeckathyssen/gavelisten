@@ -280,6 +280,11 @@
         <i class="fa-solid fa-plus"></i>
         Tilføj {{ activeTab() === 'wishlist' ? 'ønske' : 'idé' }}
       </button>
+
+      <button class="upload-wishlist-btn" (click)="openWishUploader()">
+        <i class="fa-solid fa-file-import"></i>
+        Upload ønskeliste
+      </button>
     </div>
 
     <div class="giftlist__actions">
@@ -304,4 +309,10 @@
     <p>Indlæser...</p>
   </div>
   }
+
+  <app-wish-adder-logic
+    [show]="showWishUploader()"
+    (close)="closeWishUploader()"
+    (confirm)="handleBulkWishes($event)"
+  />
 </div>

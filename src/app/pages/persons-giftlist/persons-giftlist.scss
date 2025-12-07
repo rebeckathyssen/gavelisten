@@ -99,6 +99,22 @@
   &:active { transform: translateY(0) }
 }
 
+.upload-wishlist-btn {
+  width: 100%; border: 2px solid var(--btn-green); border-radius: 16px; padding: 18px 28px; 
+  font-size: 18px; font-weight: 700; color: var(--btn-green); background: transparent; 
+  box-shadow: 0 4px 12px rgba(0,0,0,.1); cursor: pointer; letter-spacing: .5px; 
+  transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 12px;
+  i { font-size: 16px }
+  &:hover { 
+    background: var(--btn-green); 
+    color: #fff;
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 16px rgba(0,0,0,.2) 
+  }
+  &:active { transform: translateY(0) }
+}
+
 .edit-person-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px }
 .edit-person-modal__overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.7); backdrop-filter: blur(4px) }
 .edit-person-modal__content { position: relative; z-index: 1; background: var(--panel-cream); border-radius: var(--radius-xl); padding: 32px; max-width: 500px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.3); animation: slideUp .3s ease-out }

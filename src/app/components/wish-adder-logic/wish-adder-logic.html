@@ -1,0 +1,62 @@
+@if (show()) {
+<div class="wish-uploader-modal">
+  <div class="wish-uploader-modal__overlay" (click)="closeModal()"></div>
+  <div class="wish-uploader-modal__content">
+    <div class="wish-uploader-modal__header">
+      <h2 class="wish-uploader-modal__title">Upload ønskeliste</h2>
+      <button
+        class="wish-uploader-modal__close"
+        (click)="closeModal()"
+        aria-label="Luk"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="wish-uploader-modal__body">
+      <p class="wish-uploader-modal__instructions">
+        <i class="fa-solid fa-info-circle"></i>
+        Indsæt din ønskeliste nedenfor. Vær sikker på, at listen er opdelt med linjeskift.
+      </p>
+
+      <div class="wish-uploader-modal__example">
+        <strong>Eksempel:</strong>
+        <pre>- Gummistøvler str. 40
+- Parfume fra matas https://matas.dk/produkt
+- Sweater str. L</pre>
+      </div>
+
+      <textarea
+        class="wish-uploader-modal__textarea"
+        [(ngModel)]="wishText"
+        placeholder="Indsæt din ønskeliste her...&#10;Hver linje bliver til et ønske"
+        rows="10"
+        [disabled]="isProcessing()"
+      ></textarea>
+    </div>
+
+    <div class="wish-uploader-modal__footer">
+      <button
+        class="btn btn--secondary"
+        (click)="closeModal()"
+        [disabled]="isProcessing()"
+      >
+        Annuller
+      </button>
+      <button
+        class="btn btn--primary"
+        (click)="processWishes()"
+        [disabled]="isProcessing() || !wishText().trim()"
+      >
+        @if (isProcessing()) {
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Behandler...
+        } @else {
+          <i class="fa-solid fa-upload"></i>
+          Tilføj ønsker
+        }
+      </button>
+    </div>
+  </div>
+</div>
+}
