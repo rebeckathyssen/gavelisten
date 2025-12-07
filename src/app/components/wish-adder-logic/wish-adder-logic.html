@@ -16,20 +16,21 @@
     <div class="wish-uploader-modal__body">
       <p class="wish-uploader-modal__instructions">
         <i class="fa-solid fa-info-circle"></i>
-        Indsæt din ønskeliste nedenfor. Vær sikker på, at listen er opdelt med linjeskift.
+        Hvis du har fået en ønskeliste sendt som tekst, kan du kopiere den direkte hertil. 
+        Vær opmærksom på, at hver ønske skal stå på en ny linje. Links vil blive gemt sammen med ønsket.
       </p>
 
       <div class="wish-uploader-modal__example">
         <strong>Eksempel:</strong>
-        <pre>- Gummistøvler str. 40
-- Parfume fra matas https://matas.dk/produkt
-- Sweater str. L</pre>
+        <pre>Gummistøvler str. 40
+Parfume fra matas https://matas.dk/produkt
+Sweater str. L</pre>
       </div>
 
       <textarea
         class="wish-uploader-modal__textarea"
         [(ngModel)]="wishText"
-        placeholder="Indsæt din ønskeliste her...&#10;Hver linje bliver til et ønske"
+        placeholder="Indsæt ønskeliste..."
         rows="10"
         [disabled]="isProcessing()"
       ></textarea>

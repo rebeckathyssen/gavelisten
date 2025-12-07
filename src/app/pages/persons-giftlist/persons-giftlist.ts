@@ -1,6 +1,5 @@
 import { Component, signal, inject, computed, effect } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PersonService } from '../../services/person.service';
@@ -8,10 +7,12 @@ import { WishService, WishStatus, Wish } from '../../services/wish.service';
 import { switchMap, of } from 'rxjs';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { WishAdderLogic, ParsedWish } from '../../components/wish-adder-logic/wish-adder-logic';
+import { Wishlist } from '../../components/wishlist/wishlist';
+import { Ideaslist } from '../../components/ideaslist/ideaslist';
 
 @Component({
   selector: 'app-persons-giftlist',
-  imports: [CurrencyPipe, FormsModule, WishAdderLogic],
+  imports: [FormsModule, WishAdderLogic, Wishlist, Ideaslist],
   templateUrl: './persons-giftlist.html',
   styleUrl: './persons-giftlist.scss',
 })
@@ -86,39 +87,6 @@ export class PersonsGiftlist {
 
   switchTab(tab: 'wishlist' | 'ideas') {
     this.activeTab.set(tab);
-  }
-
-  normalizeUrl(url: string): string {
-    if (!url) return '';
-    const trimmed = url.trim();
-    // Check if URL already has a protocol
-    if (trimmed.match(/^[a-zA-Z]+:\/\//)) {
-      return trimmed;
-    }
-    // Add https:// if missing
-    return `https://${trimmed}`;
-  }
-
-  statusText(status: WishStatus) {
-    switch (status) {
-      case 'mangler':
-        return 'Mangler';
-      case 'købt':
-        return 'Købt';
-      case 'pakket-ind':
-        return 'Pakket ind';
-    }
-  }
-
-  statusIcon(status: WishStatus) {
-    switch (status) {
-      case 'mangler':
-        return 'circle';
-      case 'købt':
-        return 'cart-shopping';
-      case 'pakket-ind':
-        return 'gift';
-    }
   }
 
   async editWish(wish: Wish) {

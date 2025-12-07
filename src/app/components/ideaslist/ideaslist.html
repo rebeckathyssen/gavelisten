@@ -1,0 +1,73 @@
+<div class="wishes">
+  @for (idea of ideas(); track idea.id) {
+  <article class="wish-card" (click)="editWish.emit(idea)">
+    <div class="wish-card__header">
+      <h3 class="wish-card__name">{{ idea.name }}</h3>
+      <div class="wish-card__actions">
+        @if (idea.link) {
+        <a
+          [href]="normalizeUrl(idea.link)"
+          target="_blank"
+          rel="noopener noreferrer external"
+          class="wish-card__link"
+          aria-label="Åbn link"
+          (click)="$event.stopPropagation()"
+        >
+          <i class="fa-solid fa-link"></i>
+        </a>
+        } @if (idea.status !== 'pakket-ind') {
+        <button
+          class="wish-card__btn wish-card__btn--check"
+          (click)="$event.stopPropagation(); markAsBought.emit(idea)"
+          [attr.aria-label]="
+            idea.status === 'købt' ? 'Marker som pakket ind' : 'Marker som købt'
+          "
+        >
+          <i
+            class="fa-solid"
+            [class.fa-check]="idea.status === 'mangler'"
+            [class.fa-gift]="idea.status === 'købt'"
+          ></i>
+        </button>
+        }
+        <button
+          class="wish-card__btn wish-card__btn--delete"
+          (click)="$event.stopPropagation(); deleteWish.emit(idea)"
+          [disabled]="deletingWishId() === idea.id"
+          aria-label="Slet"
+        >
+          @if (deletingWishId() === idea.id) {
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          } @else {
+          <i class="fa-solid fa-trash"></i>
+          }
+        </button>
+      </div>
+    </div>
+
+    <div class="wish-card__meta">
+      <span class="wish-card__price">
+        {{ idea.price | currency : 'DKK' : 'symbol' : '1.0-0' : 'da-DK' }}
+      </span>
+      <span
+        class="wish-card__status"
+        [class.wish-card__status--mangler]="idea.status === 'mangler'"
+        [class.wish-card__status--købt]="idea.status === 'købt'"
+        [class.wish-card__status--pakket]="idea.status === 'pakket-ind'"
+      >
+        <i class="fa-solid fa-{{ statusIcon(idea.status) }}"></i>
+        {{ statusText(idea.status) }}
+      </span>
+    </div>
+
+    @if (idea.notes) {
+    <p class="wish-card__notes">{{ idea.notes }}</p>
+    }
+  </article>
+  } @empty {
+  <div class="empty-state">
+    <i class="fa-solid fa-lightbulb"></i>
+    <p>Ingen idéer endnu</p>
+  </div>
+  }
+</div>
